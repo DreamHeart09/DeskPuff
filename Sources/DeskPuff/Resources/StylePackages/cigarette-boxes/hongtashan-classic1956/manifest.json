@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "hongtashan-classic1956",
+  "cigaretteStyleId": "cigarette-hongtashan-classic1956",
+  "name": "红塔山（硬经典1956）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "红塔山",
+  "subtitle": "CLASSIC 1956",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#F6F4E9",
+      "#E5E2D2",
+      "#F0EDDF"
+    ],
+    "lid": [
+      "#F8F5EA",
+      "#E8E3D3"
+    ],
+    "foil": "#A69658",
+    "edge": "#BE251F",
+    "fold": "#FFFFFF"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.29,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.611607
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body-open-v2.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

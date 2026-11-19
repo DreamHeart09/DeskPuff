@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "shuangxi-classic1906",
+  "cigaretteStyleId": "cigarette-shuangxi-classic1906",
+  "name": "双喜（硬经典1906）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "双喜",
+  "subtitle": "",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#ad0d1b",
+      "#ad0d1b",
+      "#ad0d1b"
+    ],
+    "lid": [
+      "#ad0d1b",
+      "#ad0d1b"
+    ],
+    "foil": "#D5D5D5",
+    "edge": "#B79B58",
+    "fold": "#F5F1E8"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.3,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.64
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

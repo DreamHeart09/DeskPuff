@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "type": "lighter",
+  "id": "sample-lighter",
+  "name": "黄铜打火机",
+  "author": "DeskPuff community",
+  "license": "CC BY 4.0",
+  "paletteBase": "warm-brass",
+  "palette": {
+    "body": ["#C69A50", "#64451E", "#A97932"],
+    "rim": ["#F2D28C", "#795421"],
+    "flame": ["#FF5B08", "#FFC52D", "#FFF3C4"]
+  }
+}

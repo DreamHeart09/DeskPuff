@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "furongwang-hard",
+  "cigaretteStyleId": "cigarette-furongwang-hard",
+  "name": "芙蓉王（硬）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "芙蓉王",
+  "subtitle": "",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#ded1a9",
+      "#ded1a9",
+      "#ded1a9"
+    ],
+    "lid": [
+      "#ded1a9",
+      "#ded1a9"
+    ],
+    "foil": "#D5D5D5",
+    "edge": "#B79B58",
+    "fold": "#F5F1E8"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.277,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.64
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

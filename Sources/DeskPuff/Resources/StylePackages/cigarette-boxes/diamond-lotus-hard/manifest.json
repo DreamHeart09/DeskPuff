@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "diamond-lotus-hard",
+  "cigaretteStyleId": "cigarette-diamond-lotus-hard",
+  "name": "钻石（荷花）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "钻石·荷花",
+  "subtitle": "DIAMOND · LOTUS",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#075332",
+      "#033B27",
+      "#0B6441"
+    ],
+    "lid": [
+      "#0B5C3B",
+      "#063C2A"
+    ],
+    "foil": "#D7B05D",
+    "edge": "#D7B05D",
+    "fold": "#F6E8B9"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.3,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.618644
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body-open-v2.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

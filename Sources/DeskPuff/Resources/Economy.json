@@ -1,0 +1,486 @@
+{
+  "startingCents": 4000,
+  "offlineLimitSeconds": 28800,
+  "ranks": [
+    {
+      "id": "0",
+      "name": "青铜",
+      "hourlyCents": 3200,
+      "starBonusCentsPerHalfHour": 200,
+      "starThresholds": [
+        0,
+        5,
+        10,
+        15,
+        20
+      ]
+    },
+    {
+      "id": "1",
+      "name": "白银",
+      "hourlyCents": 5200,
+      "starBonusCentsPerHalfHour": 300,
+      "starThresholds": [
+        25,
+        35,
+        45,
+        55,
+        65
+      ]
+    },
+    {
+      "id": "2",
+      "name": "黄金",
+      "hourlyCents": 8400,
+      "starBonusCentsPerHalfHour": 500,
+      "starThresholds": [
+        75,
+        95,
+        115,
+        135,
+        155
+      ]
+    },
+    {
+      "id": "3",
+      "name": "铂金",
+      "hourlyCents": 13200,
+      "starBonusCentsPerHalfHour": 800,
+      "starThresholds": [
+        175,
+        205,
+        235,
+        265,
+        295
+      ]
+    },
+    {
+      "id": "4",
+      "name": "翡翠",
+      "hourlyCents": 20800,
+      "starBonusCentsPerHalfHour": 1200,
+      "starThresholds": [
+        325,
+        365,
+        405,
+        445,
+        485
+      ]
+    },
+    {
+      "id": "5",
+      "name": "钻石",
+      "hourlyCents": 32000,
+      "starBonusCentsPerHalfHour": 1800,
+      "starThresholds": [
+        535,
+        595,
+        655,
+        715,
+        775
+      ]
+    },
+    {
+      "id": "6",
+      "name": "大师",
+      "hourlyCents": 48000,
+      "starBonusCentsPerHalfHour": 2600,
+      "starThresholds": [
+        855,
+        955,
+        1055,
+        1155,
+        1255
+      ]
+    },
+    {
+      "id": "7",
+      "name": "宗师",
+      "hourlyCents": 70000,
+      "starBonusCentsPerHalfHour": 3800,
+      "starThresholds": [
+        1375,
+        1495,
+        1615,
+        1735,
+        1855
+      ]
+    },
+    {
+      "id": "8",
+      "name": "王者",
+      "hourlyCents": 104000,
+      "starBonusCentsPerHalfHour": 5500,
+      "starThresholds": [
+        1975,
+        2125,
+        2275,
+        2425,
+        2575
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "baisha-hard",
+      "kind": "cigaretteBox",
+      "styleID": "user:baisha-hard",
+      "name": "白沙（硬）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 600
+    },
+    {
+      "id": "hongtashan-classic1956",
+      "kind": "cigaretteBox",
+      "styleID": "user:hongtashan-classic1956",
+      "name": "红塔山（硬经典1956）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 800
+    },
+    {
+      "id": "liqun-new",
+      "kind": "cigaretteBox",
+      "styleID": "user:liqun-new",
+      "name": "利群（新版）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 1600
+    },
+    {
+      "id": "shuangxi-classic1906",
+      "kind": "cigaretteBox",
+      "styleID": "user:shuangxi-classic1906",
+      "name": "双喜（硬经典1906）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 1700
+    },
+    {
+      "id": "nanjing-xuanhemen",
+      "kind": "cigaretteBox",
+      "styleID": "user:nanjing-xuanhemen",
+      "name": "南京（炫赫门）",
+      "specification": "硬盒细支 · 20 支",
+      "priceCents": 1900
+    },
+    {
+      "id": "furongwang-hard",
+      "kind": "cigaretteBox",
+      "styleID": "user:furongwang-hard",
+      "name": "芙蓉王（硬）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 2500
+    },
+    {
+      "id": "diamond-lotus-hard",
+      "kind": "cigaretteBox",
+      "styleID": "user:diamond-lotus-hard",
+      "name": "钻石（荷花）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 3200
+    },
+    {
+      "id": "yuxi-hexie",
+      "kind": "cigaretteBox",
+      "styleID": "user:yuxi-hexie",
+      "name": "玉溪（硬和谐）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 4200
+    },
+    {
+      "id": "huanghelou-1916-ruyi",
+      "kind": "cigaretteBox",
+      "styleID": "user:huanghelou-1916-ruyi",
+      "name": "黄鹤楼（硬1916如意）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 10000
+    },
+    {
+      "id": "huangjinye-tianye",
+      "kind": "cigaretteBox",
+      "styleID": "user:huangjinye-tianye",
+      "name": "黄金叶（天叶）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 10000
+    },
+    {
+      "id": "zhonghua-classic",
+      "kind": "cigaretteBox",
+      "styleID": "user:zhonghua-classic",
+      "name": "中华（硬）",
+      "specification": "硬盒 · 20 支",
+      "priceCents": 4500
+    },
+    {
+      "id": "lighter-silver-flint",
+      "kind": "lighter",
+      "styleID": "silver-flint",
+      "name": "琥珀打火机",
+      "specification": "一次性打火机",
+      "priceCents": 400
+    },
+    {
+      "id": "lighter-crystal-clear",
+      "kind": "lighter",
+      "styleID": "crystal-clear",
+      "name": "透明打火机",
+      "specification": "一次性打火机",
+      "priceCents": 400
+    },
+    {
+      "id": "lighter-ruby-red",
+      "kind": "lighter",
+      "styleID": "ruby-red",
+      "name": "樱桃红打火机",
+      "specification": "一次性打火机",
+      "priceCents": 500
+    },
+    {
+      "id": "lighter-cobalt-blue",
+      "kind": "lighter",
+      "styleID": "cobalt-blue",
+      "name": "钴蓝打火机",
+      "specification": "一次性打火机",
+      "priceCents": 500
+    },
+    {
+      "id": "lighter-emerald-green",
+      "kind": "lighter",
+      "styleID": "emerald-green",
+      "name": "翡翠绿打火机",
+      "specification": "一次性打火机",
+      "priceCents": 500
+    },
+    {
+      "id": "tool-lighter-wind-guard",
+      "kind": "tool",
+      "styleID": "tool-lighter-wind-guard",
+      "name": "打火机防风护套",
+      "specification": "硅胶护套 · 续航 +30%",
+      "priceCents": 8800,
+      "passiveEffect": "lighterRuntime30"
+    },
+    {
+      "id": "tool-lighter-fuel-reservoir",
+      "kind": "tool",
+      "styleID": "tool-lighter-fuel-reservoir",
+      "name": "长效燃料仓",
+      "specification": "加厚燃料仓 · 续航 +60%",
+      "priceCents": 16800,
+      "passiveEffect": "lighterRuntime60"
+    },
+    {
+      "id": "tool-lighter-dual-cell",
+      "kind": "tool",
+      "styleID": "tool-lighter-dual-cell",
+      "name": "双芯续航组件",
+      "specification": "双芯延时组件 · 续航 +100%",
+      "priceCents": 28800,
+      "passiveEffect": "lighterRuntime100"
+    },
+    {
+      "id": "tool-cigarette-membership-card",
+      "kind": "tool",
+      "styleID": "tool-cigarette-membership-card",
+      "name": "香烟会员卡套",
+      "specification": "皮革卡套 · 买烟 −5%",
+      "priceCents": 6800,
+      "passiveEffect": "cigaretteDiscount5"
+    },
+    {
+      "id": "tool-cigarette-gold-membership-card",
+      "kind": "tool",
+      "styleID": "tool-cigarette-gold-membership-card",
+      "name": "香烟金卡会员套",
+      "specification": "香槟金会员卡 · 买烟 −10%",
+      "priceCents": 12800,
+      "passiveEffect": "cigaretteDiscount10"
+    },
+    {
+      "id": "tool-cigarette-black-membership-card",
+      "kind": "tool",
+      "styleID": "tool-cigarette-black-membership-card",
+      "name": "香烟黑金会员卡",
+      "specification": "碳纤黑金会员卡 · 买烟 −15%",
+      "priceCents": 22000,
+      "passiveEffect": "cigaretteDiscount15"
+    },
+    {
+      "id": "tool-ashtray-filter-kit",
+      "kind": "tool",
+      "styleID": "tool-ashtray-filter-kit",
+      "name": "烟灰缸替换滤芯",
+      "specification": "吸附棉内芯 · 容量 +50%",
+      "priceCents": 10800,
+      "passiveEffect": "ashtrayCapacity50"
+    },
+    {
+      "id": "clear-glass",
+      "kind": "ashtray",
+      "styleID": "clear-glass",
+      "name": "厚底玻璃烟灰缸",
+      "specification": "玻璃 · 1 只",
+      "priceCents": 2000
+    },
+    {
+      "id": "white-ceramic",
+      "kind": "ashtray",
+      "styleID": "white-ceramic",
+      "name": "素白釉陶瓷烟灰缸",
+      "specification": "白釉陶瓷 · 1 只",
+      "priceCents": 3800
+    },
+    {
+      "id": "brushed-steel",
+      "kind": "ashtray",
+      "styleID": "brushed-steel",
+      "name": "拉丝不锈钢烟灰缸",
+      "specification": "拉丝不锈钢 · 1 只",
+      "priceCents": 6500
+    },
+    {
+      "id": "black-marble",
+      "kind": "ashtray",
+      "styleID": "black-marble",
+      "name": "曜黑大理石烟灰缸",
+      "specification": "天然石纹 · 1 只",
+      "priceCents": 14500
+    },
+    {
+      "id": "solid-gold",
+      "kind": "ashtray",
+      "styleID": "solid-gold",
+      "name": "纯金典藏烟灰缸",
+      "specification": "薄壁足金 · 约 100 g",
+      "priceCents": 8500000
+    }
+  ],
+  "bags": [
+    {
+      "id": "bag-1",
+      "name": "扩容至 24 格",
+      "stage": 1,
+      "specification": "6 × 4 格",
+      "priceCents": 12000
+    },
+    {
+      "id": "bag-2",
+      "name": "扩容至 30 格",
+      "stage": 2,
+      "specification": "6 × 5 格",
+      "priceCents": 42000
+    },
+    {
+      "id": "bag-3",
+      "name": "扩容至 35 格",
+      "stage": 3,
+      "specification": "7 × 5 格",
+      "priceCents": 110000
+    },
+    {
+      "id": "bag-4",
+      "name": "扩容至 48 格",
+      "stage": 4,
+      "specification": "8 × 6 格",
+      "priceCents": 260000
+    },
+    {
+      "id": "bag-5",
+      "name": "扩容至 60 格",
+      "stage": 5,
+      "specification": "10 × 6 格",
+      "priceCents": 560000
+    }
+  ],
+  "incomeIntervalSeconds": 1800,
+  "bagStyles": [
+    {
+      "id": "bag-style-urban-sling",
+      "styleID": "urban-sling",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-leather-mini",
+      "styleID": "leather-mini",
+      "priceCents": 6500
+    },
+    {
+      "id": "bag-style-crescent-sling",
+      "styleID": "crescent-sling",
+      "priceCents": 7500
+    },
+    {
+      "id": "bag-style-urban-daypack",
+      "styleID": "urban-daypack",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-outdoor-shoulder",
+      "styleID": "outdoor-shoulder",
+      "priceCents": 13500
+    },
+    {
+      "id": "bag-style-canvas-mailbag",
+      "styleID": "canvas-mailbag",
+      "priceCents": 12500
+    },
+    {
+      "id": "bag-style-campus-classic",
+      "styleID": "campus-classic",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-city-minimal",
+      "styleID": "city-minimal",
+      "priceCents": 23500
+    },
+    {
+      "id": "bag-style-casual-square",
+      "styleID": "casual-square",
+      "priceCents": 22000
+    },
+    {
+      "id": "bag-style-business-multi",
+      "styleID": "business-multi",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-outdoor-technical",
+      "styleID": "outdoor-technical",
+      "priceCents": 38000
+    },
+    {
+      "id": "bag-style-vintage-large",
+      "styleID": "vintage-large",
+      "priceCents": 34500
+    },
+    {
+      "id": "bag-style-urban-commuter",
+      "styleID": "urban-commuter",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-travel-duffel",
+      "styleID": "travel-duffel",
+      "priceCents": 61000
+    },
+    {
+      "id": "bag-style-business-travel",
+      "styleID": "business-travel",
+      "priceCents": 56500
+    },
+    {
+      "id": "bag-style-mountaineering",
+      "styleID": "mountaineering",
+      "priceCents": 0
+    },
+    {
+      "id": "bag-style-multi-day-hike",
+      "styleID": "multi-day-hike",
+      "priceCents": 88000
+    },
+    {
+      "id": "bag-style-gear-hiker",
+      "styleID": "gear-hiker",
+      "priceCents": 97000
+    }
+  ]
+}
