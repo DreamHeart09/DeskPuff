@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "type": "ashtray",
+  "id": "sample-celadon",
+  "name": "青釉·样式包",
+  "author": "Your Name",
+  "license": "CC BY 4.0",
+  "paletteBase": "clear-glass",
+  "palette": {
+    "body": ["#A2C8B9", "#5F9C8D", "#83B6A8"],
+    "rim": ["#D0E5D2", "#6C9F91"],
+    "basin": ["#385F57", "#1B3935", "#4D7567"],
+    "trim": "#B0B78F",
+    "highlight": "#E6F4E8"
+  },
+  "geometry": {
+    "basin": [0.091, 0.252, 0.819, 0.371]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "baisha-hard",
+  "cigaretteStyleId": "cigarette-baisha-hard",
+  "name": "白沙（硬）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "白沙",
+  "subtitle": "",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#eeeae0",
+      "#eeeae0",
+      "#eeeae0"
+    ],
+    "lid": [
+      "#eeeae0",
+      "#eeeae0"
+    ],
+    "foil": "#D5D5D5",
+    "edge": "#B79B58",
+    "fold": "#F5F1E8"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.29,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.64
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

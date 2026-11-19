@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "huangjinye-tianye",
+  "cigaretteStyleId": "cigarette-huangjinye-tianye",
+  "name": "黄金叶（天叶）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "黄金叶",
+  "subtitle": "",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#e9e3d9",
+      "#e9e3d9",
+      "#e9e3d9"
+    ],
+    "lid": [
+      "#e9e3d9",
+      "#e9e3d9"
+    ],
+    "foil": "#D5D5D5",
+    "edge": "#B79B58",
+    "fold": "#F5F1E8"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.298,
+    "rowCounts": [
+      7,
+      6,
+      7
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8,
+    "frontAspectRatio": 0.64
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

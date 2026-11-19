@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "nanjing-xuanhemen",
+  "cigaretteStyleId": "cigarette-nanjing-xuanhemen",
+  "name": "南京（炫赫门）",
+  "author": "DeskPuff ImageGen",
+  "license": "AI 生成的 DeskPuff 视觉素材，参考公开实拍图；商标及包装权利归其权利人所有",
+  "brand": "南京",
+  "subtitle": "",
+  "paletteBase": "zhonghua-fallback",
+  "palette": {
+    "body": [
+      "#b9e0d8",
+      "#b9e0d8",
+      "#b9e0d8"
+    ],
+    "lid": [
+      "#b9e0d8",
+      "#b9e0d8"
+    ],
+    "foil": "#D5D5D5",
+    "edge": "#B79B58",
+    "fold": "#F5F1E8"
+  },
+  "geometry": {
+    "type": "slim-hard",
+    "lidBandFraction": 0.257,
+    "rowCounts": [
+      10,
+      10
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 5.4,
+    "frontAspectRatio": 0.549
+  },
+  "preview": "preview.png",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}

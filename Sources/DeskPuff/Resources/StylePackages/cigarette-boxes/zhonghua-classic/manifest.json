@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "zhonghua-classic",
+  "cigaretteStyleId": "cigarette-zhonghua-classic",
+  "name": "中华·经典硬盒",
+  "author": "DeskPuff ImageGen 素材",
+  "license": "AI 生成的 DeskPuff 视觉素材，基于用户提供的参考图；品牌及商标权利归其权利人所有",
+  "brand": "中华",
+  "subtitle": "CHUNGHWA · CLASSIC",
+  "paletteBase": "yunlan-red",
+  "palette": {
+    "body": [
+      "#C3212A",
+      "#770611",
+      "#AE101E"
+    ],
+    "lid": [
+      "#C41F29",
+      "#800A13"
+    ],
+    "foil": "#E7C77E",
+    "edge": "#D8B15F",
+    "fold": "#FFF0C8"
+  },
+  "preview": "preview-photo-v1.png",
+  "artwork": {
+    "body": "artwork/body-photo-v1.png",
+    "lidOutside": "artwork/lid-outside-photo-v1.png"
+  },
+  "geometry": {
+    "type": "standard-hard",
+    "lidBandFraction": 0.29069767441860467,
+    "rowCounts": [
+      7,
+      7,
+      6
+    ],
+    "cigaretteCount": 20,
+    "cigaretteDiameterMM": 7.8
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "type": "cigarette",
+  "id": "sample-community-slim",
+  "name": "社区细支·暖金滤嘴",
+  "author": "Your Name",
+  "license": "CC BY 4.0",
+  "diameterMM": 6.2,
+  "paper": {
+    "color": "#F8F7F2",
+    "highlight": "#FFFFFF",
+    "shade": "#E2E1DA"
+  },
+  "filter": {
+    "color": "#C5A16B",
+    "highlight": "#E6CE9F",
+    "shade": "#987248",
+    "band": "#A98556"
+  },
+  "smoke": {
+    "emissionMultiplier": 0.72,
+    "colorMode": "inheritGlobal",
+    "color": "#CFD5D8"
+  }
+}

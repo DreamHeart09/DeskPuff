@@ -1,0 +1,38 @@
+name: DeskPuffWidgets
+options:
+  bundleIdPrefix: local.deskpuff
+  deploymentTarget:
+    macOS: "14.0"
+packages:
+  DeskPuff:
+    path: ..
+targets:
+  DeskPuffWidgetExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: ../Sources/DeskPuffWidget
+        excludes:
+          - Resources/**
+      - path: ../Sources/DeskPuffWidget/Resources
+        buildPhase: resources
+    dependencies:
+      - package: DeskPuff
+        product: DeskPuffCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.deskpuff.app.widget
+        PRODUCT_NAME: DeskPuffWidgetExtension
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_ENTITLEMENTS: Widget.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        APPLICATION_EXTENSION_API_ONLY: YES
+        ENABLE_APP_SANDBOX: YES
+        SKIP_INSTALL: YES
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+schemes:
+  DeskPuffWidgetExtension:
+    build:
+      targets:
+        DeskPuffWidgetExtension: all

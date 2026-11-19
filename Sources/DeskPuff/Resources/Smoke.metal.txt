@@ -1,0 +1,234 @@
+#include <metal_stdlib>
+using namespace metal;
+struct Params {
+    float dt;
+    float2 source;
+    float2 mouse;
+    float2 previousMouse;
+    float2 wind;
+    float emission;
+    float time;
+    float aspect;
+    float sourceRadius;
+    float opacity;
+    float accumulation;
+    float2 puffSource;
+    float puffEmission;
+    float inhale;
+    float puffSize;
+    float2 previousSource;
+    float2 sourceWind;
+    float cloudVariation;
+    float4 colorTint;
+    float2 sootSource;
+    float2 previousSootSource;
+    float sootEmission;
+    float sootRadius;
+};
+constexpr sampler linearSampler(coord::normalized, address::clamp_to_zero, filter::linear);
+
+// Velocity curl restores small swirling structures lost to numerical diffusion.
+float curlAt(texture2d<float, access::sample> field, float2 uv, float2 px) {
+    float left = field.sample(linearSampler, uv - float2(px.x, 0)).y;
+    float right = field.sample(linearSampler, uv + float2(px.x, 0)).y;
+    float down = field.sample(linearSampler, uv - float2(0, px.y)).x;
+    float up = field.sample(linearSampler, uv + float2(0, px.y)).x;
+    return (right - left) - (up - down);
+}
+
+kernel void advect(texture2d<float, access::sample> oldField [[texture(0)]], texture2d<float, access::write> next [[texture(1)]],
+                   texture2d<float, access::sample> oldSoot [[texture(2)]], texture2d<float, access::write> nextSoot [[texture(3)]],
+                   constant Params &p [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
+    uint w = next.get_width(), h = next.get_height();
+    if (gid.x >= w || gid.y >= h) return;
+    float2 uv = (float2(gid) + 0.5) / float2(w, h);
+    float2 aspect = float2(p.aspect, 1.0);
+    float2 path = (p.mouse - p.previousMouse) * aspect;
+    float2 relative = (uv - p.previousMouse) * aspect;
+    float t = clamp(dot(relative, path) / max(dot(path, path), 0.000001), 0.0, 1.0);
+    float distance = length(relative - t * path);
+    float gust = exp(-distance * distance / 0.0032);
+    float2 cursorVelocity = clamp(p.wind, -1.5, 1.5);
+    float2 normal = float2(-path.y, path.x) / max(length(path), 0.0001);
+    float side = dot(relative - t * path, normal);
+    float spin = clamp(side * 12.0, -1.0, 1.0);
+    float2 tangent = float2(-relative.y, relative.x) / max(length(relative), 0.001);
+    float2 swirl = tangent * spin * min(length(cursorVelocity), 1.5) * 0.32;
+    float2 localWind = (cursorVelocity * 0.85 + swirl) * gust;
+    float2 sourcePath = (p.source - p.previousSource) * aspect;
+    float2 sourceRelative = (uv - p.previousSource) * aspect;
+    float sourceT = clamp(dot(sourceRelative, sourcePath) / max(dot(sourcePath, sourcePath), 0.000001), 0.0, 1.0);
+    float2 sourceOffset = sourceRelative - sourceT * sourcePath;
+    float sourceWake = exp(-dot(sourceOffset, sourceOffset) / 0.0016);
+    float2 sourceAir = clamp(p.sourceWind, -0.75, 0.75) * sourceWake * 0.22;
+    localWind += sourceAir;
+    float4 here = oldField.sample(linearSampler, uv);
+    // The ceiling retains rising smoke. Sideways gusts can still push it offscreen.
+    float2 flow = here.xy + localWind;
+    flow.y = max(flow.y, -uv.y * 12.0);
+    if (abs(localWind.x) < 0.005) {
+        flow.x = clamp(flow.x, -uv.x * 12.0, (1.0 - uv.x) * 12.0);
+    }
+    float2 back = uv - flow * p.dt;
+    back.y = max(back.y, 0.5 / float(h));
+    float4 advected = oldField.sample(linearSampler, back);
+    float2 texel = 1.0 / float2(w, h);
+    float diffuse = (oldField.sample(linearSampler, back + float2(texel.x, 0)).z +
+                     oldField.sample(linearSampler, back - float2(texel.x, 0)).z +
+                     oldField.sample(linearSampler, back + float2(0, texel.y)).z +
+                     oldField.sample(linearSampler, back - float2(0, texel.y)).z) * 0.25;
+    float density = mix(advected.z, diffuse, min(p.dt * 0.65, 0.2)) * exp(-mix(0.18, 0.001, p.accumulation) * p.dt);
+    // Reduce numerical loss near the ceiling while leaving swept smoke movable.
+    float retention = (1.0 - smoothstep(0.01, 0.12, uv.y)) * (1.0 - smoothstep(0.01, 0.15, length(localWind))) * p.accumulation;
+    density = mix(density, max(density, here.z * exp(-0.004 * p.dt)), retention);
+    float2 velocity = advected.xy * exp(-0.48 * p.dt);
+    velocity += localWind * (1.4 * p.dt);
+    float curl = curlAt(oldField, uv, texel);
+    float2 curlGradient = float2(abs(curlAt(oldField, uv + float2(texel.x, 0), texel)) - abs(curlAt(oldField, uv - float2(texel.x, 0), texel)),
+                                 abs(curlAt(oldField, uv + float2(0, texel.y), texel)) - abs(curlAt(oldField, uv - float2(0, texel.y), texel)));
+    float2 direction = curlGradient / max(length(curlGradient), 0.0001);
+    velocity += float2(direction.y, -direction.x) * clamp(curl * 1.8, -0.08, 0.08) * p.dt;
+    // A screen-relative upward current and small evolving eddies carry smoke upward.
+    velocity.y -= (0.045 + min(density, 1.0) * 0.045) * p.dt;
+    // Slow the updraft near the ceiling and spread the smoke sideways.
+    float ceiling = 1.0 - smoothstep(0.0, 0.018, uv.y);
+    velocity.y = mix(velocity.y, max(velocity.y, 0.0), ceiling);
+    velocity.x += sign(uv.x - p.source.x) * ceiling * min(density, 1.0) * 0.16 * p.dt;
+    velocity.x += sin(uv.y * 32.0 + p.time * 1.3 + sin(uv.x * 19.0)) * density * 0.018 * p.dt;
+    float2 delta = (uv - p.source) * aspect;
+    float radius = max(p.sourceRadius, 0.003);
+    float source = exp(-dot(delta, delta) / (radius * radius));
+    // Integrate the moving tip over the frame so smoke forms a continuous trail.
+    float2 middleDelta = (uv - mix(p.previousSource, p.source, 0.5)) * aspect;
+    float2 previousDelta = (uv - p.previousSource) * aspect;
+    source = (source * 0.4 + exp(-dot(middleDelta, middleDelta) / (radius * radius)) * 0.4 +
+              exp(-dot(previousDelta, previousDelta) / (radius * radius)) * 0.2) * p.emission;
+    // During inhalation, nearby smoke is drawn towards the burning tip.
+    // Keep inhalation local to the ember. A broad radial pull can drag smoke
+    // through the gaps around a folded cigarette and look like it enters paper.
+    float suction = exp(-dot(delta, delta) / (radius * radius * 3.0)) * p.inhale;
+    float2 towardTip = (p.source - uv) / max(length(p.source - uv), 0.0001);
+    velocity += towardTip * suction * 0.12 * p.dt;
+    density *= exp(-suction * 2.0 * p.dt);
+    float2 puffDelta = (uv - p.puffSource) * aspect;
+    float puffRadius = radius * p.puffSize;
+    // Several overlapping, slightly drifting wisps avoid a solid circular blob.
+    float2 drift = float2(sin(p.time * 2.3 + uv.y * 18.0) * puffRadius * 0.45,
+                          cos(p.time * 1.7 + uv.x * 14.0) * puffRadius * 0.35);
+    float2 wispA = puffDelta - drift - float2(puffRadius * 0.6, 0.0);
+    float2 wispB = puffDelta + drift + float2(puffRadius * 0.55, puffRadius * 0.35);
+    float core = exp(-dot(puffDelta, puffDelta) / (puffRadius * puffRadius));
+    float wisps = exp(-dot(wispA, wispA) / (puffRadius * puffRadius * 0.6)) +
+                  exp(-dot(wispB, wispB) / (puffRadius * puffRadius * 0.6));
+    float puff = (core * 0.55 + wisps * 0.22) * p.puffEmission;
+    density = clamp(density + (source + puff) * p.dt, 0.0, 6.0);
+    // A soft outward jet expands the exhaled cloud before buoyancy and
+    // the velocity field carry it away; it remains interactive with wind.
+    float2 outward = (uv - p.puffSource) / max(length(uv - p.puffSource), 0.0001);
+    float2 eddy = float2(-outward.y, outward.x) * sin(p.time * 4.0 + length(puffDelta) * 85.0);
+    float impulse = min(puff * 0.055, 0.7);
+    velocity += (outward * 0.65 + eddy * 0.25 + float2(-0.45 / p.aspect, -0.12)) * impulse * p.dt;
+    velocity.y -= (source * 0.11 + puff * 0.035) * p.dt;
+
+    // Age smoke reaching the ceiling into a slower-moving, persistent cloud.
+    // This is still a spatial field: the cursor pushes both the plume and cloud.
+    float2 cloudFlow = localWind + here.xy * 0.08 + float2(0.0, 0.018);
+    if (abs(localWind.x) < 0.005) {
+        cloudFlow.x = clamp(cloudFlow.x, -uv.x * 12.0, (1.0 - uv.x) * 12.0);
+    }
+    float2 cloudBack = uv - cloudFlow * p.dt;
+    cloudBack.y = clamp(cloudBack.y, 0.5 / float(h), 1.0 - 0.5 / float(h));
+    float cloud = oldField.sample(linearSampler, cloudBack).w;
+    // Rotating the diffusion stencil avoids repeatedly stamping vertical bands.
+    float angle = 0.5 + 0.45 * sin(p.time * 0.17 + uv.x * 7.0 + uv.y * 5.0);
+    float2 axis = float2(cos(angle), sin(angle));
+    float2 perpendicular = float2(-axis.y, axis.x);
+    float2 scale = float2(0.060 / p.aspect, 0.020);
+    float2 offsetA = axis * scale, offsetB = perpendicular * scale;
+    float2 cloudA = cloudBack + offsetA, cloudB = cloudBack - offsetA;
+    float2 cloudC = cloudBack + offsetB, cloudD = cloudBack - offsetB;
+    float edge = 0.5 / float(h);
+    cloudA.y = clamp(cloudA.y, edge, 1.0 - edge);
+    cloudB.y = clamp(cloudB.y, edge, 1.0 - edge);
+    cloudC.y = clamp(cloudC.y, edge, 1.0 - edge);
+    cloudD.y = clamp(cloudD.y, edge, 1.0 - edge);
+    float cloudNeighbors = (oldField.sample(linearSampler, cloudA).w +
+                            oldField.sample(linearSampler, cloudB).w +
+                            oldField.sample(linearSampler, cloudC).w +
+                            oldField.sample(linearSampler, cloudD).w) * 0.25;
+    cloud = mix(cloud, cloudNeighbors, min(2.0 * p.dt, 0.2));
+    float ceilingDeposit = (1.0 - smoothstep(0.02, 0.16, uv.y)) * min(here.z, 2.0);
+    cloud = clamp(cloud * exp(-mix(0.30, 0.0003, p.accumulation) * p.dt) + ceilingDeposit * 0.65 * p.dt * p.accumulation, 0.0, 2.0);
+    next.write(float4(clamp(velocity, -1.5, 1.5), density, cloud), gid);
+
+    // Short-lived charcoal smoke emitted when a solid object heats inside the
+    // lighter flame. It shares the local wind but fades faster than cigarette smoke.
+    float2 sootBack = uv - (here.xy + localWind + float2(0.0, -0.11)) * p.dt;
+    float soot = oldSoot.sample(linearSampler, sootBack).x * exp(-1.05 * p.dt);
+    float2 sootAspect = float2(p.aspect, 1.0);
+    float sootRadius = max(p.sootRadius, 0.002);
+    float2 sootPath = (p.sootSource - p.previousSootSource) * sootAspect;
+    float2 sootRelative = (uv - p.previousSootSource) * sootAspect;
+    float sootT = clamp(dot(sootRelative, sootPath) / max(dot(sootPath, sootPath), 0.000001), 0.0, 1.0);
+    float2 sootOffset = sootRelative - sootT * sootPath;
+    float sootWake = exp(-dot(sootOffset, sootOffset) / (sootRadius * sootRadius));
+    float2 sootMidpoint = (uv - mix(p.previousSootSource, p.sootSource, 0.5)) * sootAspect;
+    float2 sootCurrentDelta = (uv - p.sootSource) * sootAspect;
+    float sootSource = (exp(-dot(sootCurrentDelta, sootCurrentDelta) / (sootRadius * sootRadius)) * 0.4 +
+                        exp(-dot(sootMidpoint, sootMidpoint) / (sootRadius * sootRadius)) * 0.4 + sootWake * 0.2) * p.sootEmission;
+    soot = clamp(soot + sootSource * p.dt * 1.25, 0.0, 2.0);
+    nextSoot.write(float4(soot, 0, 0, 0), gid);
+}
+// Bake the currently displayed fade into the field before a new cigarette starts.
+// Match the fragment's exponential opacity curve to avoid a brightness jump.
+kernel void rebaseSmoke(texture2d<float, access::read> oldField [[texture(0)]], texture2d<float, access::write> next [[texture(1)]],
+                        texture2d<float, access::read> oldSoot [[texture(2)]], texture2d<float, access::write> nextSoot [[texture(3)]],
+                        constant float &fade [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
+    if (gid.x >= next.get_width() || gid.y >= next.get_height()) return;
+    float4 value = oldField.read(gid);
+    float total = max(value.z + value.w * 1.05, 0.0);
+    if (total > 0.00001) {
+        float targetAlpha = clamp(fade, 0.0, 1.0) * (1.0 - exp(-total * 1.7));
+        float rebased = -log(max(1.0 - targetAlpha, 0.00001)) / 1.7;
+        value.zw *= rebased / total;
+    }
+    next.write(value, gid);
+    nextSoot.write(oldSoot.read(gid) * clamp(fade, 0.0, 1.0), gid);
+}
+struct VertexOut { float4 position [[position]]; float2 uv; };
+vertex VertexOut vertexMain(uint id [[vertex_id]]) {
+    float2 vertices[4] = {float2(-1,-1), float2(1,-1), float2(-1,1), float2(1,1)};
+    VertexOut o; o.position = float4(vertices[id],0,1); o.uv = float2((vertices[id].x+1)*0.5, (1-vertices[id].y)*0.5); return o;
+}
+fragment float4 fragmentMain(VertexOut in [[stage_in]], texture2d<float> field [[texture(0)]],
+                             texture2d<float> sootField [[texture(1)]], constant Params &p [[buffer(0)]]) {
+    float2 pixel = 1.0 / float2(field.get_width(), field.get_height());
+    // Reuse each texture read for both the plume and ceiling cloud.
+    float4 center = field.sample(linearSampler, in.uv);
+    float4 nearSum = field.sample(linearSampler, in.uv + float2(pixel.x, 0)) +
+                     field.sample(linearSampler, in.uv - float2(pixel.x, 0)) +
+                     field.sample(linearSampler, in.uv + float2(0, pixel.y)) +
+                     field.sample(linearSampler, in.uv - float2(0, pixel.y));
+    float4 broad = field.sample(linearSampler, in.uv + float2(pixel.x * 3.0, 0)) +
+                   field.sample(linearSampler, in.uv - float2(pixel.x * 3.0, 0)) +
+                   field.sample(linearSampler, in.uv + float2(0, pixel.y * 3.0)) +
+                   field.sample(linearSampler, in.uv - float2(0, pixel.y * 3.0));
+    float d = (center.z * 0.55 + nearSum.z * 0.1125) * 0.78 + broad.z * 0.055;
+    float cloud = center.w * 0.6 + broad.w * 0.1;
+    // Enhance denser parts of the simulated field without overlaying a
+    // separate procedural pattern or changing empty areas into smoke.
+    cloud *= 1.0 + p.cloudVariation * 0.12 * smoothstep(0.18, 1.1, cloud);
+    d += cloud * 1.05;
+    float soot = sootField.sample(linearSampler, in.uv).x * 0.58
+               + (sootField.sample(linearSampler, in.uv + float2(pixel.x * 2.0, 0)).x
+                + sootField.sample(linearSampler, in.uv - float2(pixel.x * 2.0, 0)).x
+                + sootField.sample(linearSampler, in.uv + float2(0, pixel.y * 2.0)).x
+                + sootField.sample(linearSampler, in.uv - float2(0, pixel.y * 2.0)).x) * 0.105;
+    float combinedDensity = d + soot * 0.8;
+    float alpha = (1.0 - exp(-combinedDensity * 1.7)) * 0.78 * p.opacity;
+    float3 color = mix(float3(0.75, 0.79, 0.82), float3(0.52, 0.58, 0.63), smoothstep(0.1, 1.5, d));
+    float shade = mix(1.0, 0.72, smoothstep(0.1, 1.5, d));
+    color = mix(color, p.colorTint.rgb * shade, p.colorTint.a);
+    color = mix(color, float3(0.12, 0.105, 0.095), smoothstep(0.015, 0.50, soot) * 0.92);
+    return float4(color * alpha, alpha);
+}

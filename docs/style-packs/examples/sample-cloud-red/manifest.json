@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "type": "cigaretteBox",
+  "id": "sample-cloud-red",
+  "name": "云纹·朱红样式包",
+  "author": "Your Name",
+  "license": "CC BY 4.0",
+  "paletteBase": "yunlan-red",
+  "brand": "云纹",
+  "subtitle": "SAMPLE COMMUNITY STYLE",
+  "artwork": {
+    "body": "artwork/body.png",
+    "lidOutside": "artwork/lid-outside.png"
+  }
+}
